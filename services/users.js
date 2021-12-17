@@ -1,5 +1,7 @@
 const MongoLib = require('../lib/mongo');
 const bcrypt = require('bcrypt');
+// aqui va la toda la logica del software
+// los services se encargan de recibir la informacion de las rutas y peticiones 
 
 class UsersService {
     constructor(){

@@ -8,17 +8,31 @@ const UsersService = require('../services/users');
 const passport = require('passport');
 require('../utils/auth/strategies/jwt');
 
-
+// si no colocamos el middleware de passport.authenticate no podemos acceder a req.user
 function usersApi(app){
     const router = express.Router();
     app.use('/api/users', router);
 
     const usersService = new UsersService();
-
-    router.get('/:email',/*passport.authenticate('jwt',{session:false}),*/ async function(req, res, next){
-        const { email } = req.params;
+    router.get('/me',passport.authenticate('jwt',{session:false}), async function(req, res, next){
+        // console.log(req.user);
+        const userId = req.user._id;
         try {
-            const user = await usersService.getUser({ email });
+            const user = await usersService.getUserWithOutPassword({ userId });
+ 
+            res.status(200).json({
+                data: user,
+                message:'user retrieved'
+            })
+        } catch (error) {
+            next(error);
+        }
+    });// devuelve un usuario sin contraseña
+
+    router.get('/nick-name/:nickName',passport.authenticate('jwt',{session:false}), async function(req, res, next){
+        const { nickName } = req.params;
+        try {
+            const user = await usersService.getUser({ nickName });
  
             res.status(200).json({
                 data: user,

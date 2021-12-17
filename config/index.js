@@ -15,7 +15,7 @@ const config = {
 	defaultAdminPassword: process.env.DEFAULT_ADMIN_PASSWORD,
 	defaultUserPassword: process.env.DEFAULT_USER_PASSWORD,
 
-	publicApiKeyToken: process.env.PUBLIC_API_KEY_TOKEN,
+	superApiKeyToken: process.env.SUPER_API_KEY_TOKEN,
 
 	basicApiKeyToken: process.env.BASIC_API_KEY_TOKEN,
 	middleApiKeyToken: process.env.MIDDLE_API_KEY_TOKEN,

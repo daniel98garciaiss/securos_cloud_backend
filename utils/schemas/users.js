@@ -11,7 +11,7 @@ const createUserSchema = {
     password: joi.string().required(),
 
     login:  joi.boolean(),
-    rol: joi.boolean()
+    rol: joi.string()
 }
 
 module.exports = {

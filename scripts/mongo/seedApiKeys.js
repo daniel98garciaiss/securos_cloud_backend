@@ -45,9 +45,13 @@ const basicScopes = [
 
   'read:camaras',
 ];
-const publicScopes = [
+const superScopes = [
   'signin:auth',
   'signup:auth',
+  'read:all',
+  'create:all',
+  'update:all',
+  'delete:all',
 ];
 
 const apiKeys = [
@@ -65,7 +69,7 @@ const apiKeys = [
   },
   {
     token: generateRandomToken(),
-    scopes: publicScopes
+    scopes: superScopes
   }
 ];
 

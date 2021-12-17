@@ -41,6 +41,10 @@ function authApi(app) {
           const { _id: id, nickName, rol } = user; //extrayendo de user
           
           let apikey = null;
+          if(rol === "superUsuario"){
+            apiKey = await apiKeysService.getApiKey({ token: config.superApiKeyToken });
+          }
+
           if(rol === "administrador"){
             apiKey = await apiKeysService.getApiKey({ token: config.fullApiKeyToken });
           }
@@ -86,6 +90,8 @@ function authApi(app) {
       next(error);
     }
   });
+
+  
 }
 
 module.exports = authApi;
