@@ -42,27 +42,27 @@ function authApi(app) {
           
           let apikey = null;
           if(rol === "superUsuario"){
-            apiKey = await apiKeysService.getApiKey({ token: config.superApiKeyToken });
+            apikey = await apiKeysService.getApiKey({ token: config.superApiKeyToken });
           }
 
           if(rol === "administrador"){
-            apiKey = await apiKeysService.getApiKey({ token: config.fullApiKeyToken });
+            apikey = await apiKeysService.getApiKey({ token: config.fullApiKeyToken });
           }
 
           if(rol === "mantenimiento"){
-            apiKey = await apiKeysService.getApiKey({ token: config.middleApiKeyToken });
+            apikey = await apiKeysService.getApiKey({ token: config.middleApiKeyToken });
           }
           
           if(rol === "usuario"){
-            apiKey = await apiKeysService.getApiKey({ token: config.basicApiKeyToken });
+            apikey = await apiKeysService.getApiKey({ token: config.basicApiKeyToken });
           }
 
-          if (!apiKey) {
+          if (!apikey) {
             next(boom.unauthorized());
           }
 
 
-          const payload = { sub: id, nickName, scopes: apiKey.scopes };
+          const payload = { sub: id, nickName, scopes: apikey.scopes };
 
           const token = jwt.sign(payload, config.authJwtSecret, { //firmando token (emcribtando)
             expiresIn: '20m'
@@ -91,6 +91,21 @@ function authApi(app) {
     }
   });
 
+
+  // +++++++++++++++++++++++++++++++++++++++++++ CERRAR SESION +++++++++++++++++++++++++++++++++++
+  router.post('/logout',passport.authenticate('jwt',{session:false}), (req, res) => {
+    const { token } = req.body;
+    const userId = req.user._id;
+    try {
+      refreshTokens = refreshTokens.filter(t => t !== token);
+      res.status(200).json({
+        data: userId,
+        message: 'Logout successful'
+      });
+    } catch (error) {
+      next(error);
+    }
+  });
   
 }
 

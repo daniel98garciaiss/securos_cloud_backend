@@ -27,7 +27,7 @@ function usersApi(app){
         } catch (error) {
             next(error);
         }
-    });// devuelve un usuario sin contraseña
+    });// devuelve el usuario logueado sin contraseña
 
     router.get('/nick-name/:nickName',passport.authenticate('jwt',{session:false}), async function(req, res, next){
         const { nickName } = req.params;
